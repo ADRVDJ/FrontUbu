@@ -1,0 +1,28 @@
+
+    <title>Inventory Report</title>
+<body>
+  <app-menu-admin></app-menu-admin>
+
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+  
+  <div class="container">
+    <h2>Inventory Report</h2>
+    <table class="inventory-table">
+      <tr>
+        <th>Total Products</th>
+        <td>{{ reportData.totalProducts }}</td>
+      </tr>
+      <tr>
+        <td>
+          <ul>
+            <li *ngFor="let category of reportData.categories">{{ category }}</li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <app-pie></app-pie>
+</body>

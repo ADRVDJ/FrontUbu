@@ -1,0 +1,70 @@
+/* Navbar */
+.navbar {
+    background-color: #f8f9fa; /* Color de fondo del navbar */
+    border-bottom: 1px solid #ddd; /* Borde inferior para un efecto de separación */
+  }
+  
+  .navbar-brand {
+    font-size: 1.5rem; /* Tamaño de fuente del nombre de la marca */
+    font-weight: bold; /* Fuente en negrita */
+  }
+  
+  .navbar-nav {
+    flex-direction: row; /* Alinea los elementos del navbar horizontalmente */
+  }
+  
+  .nav-item {
+    margin: 0 1rem; /* Espaciado entre los elementos del navbar */
+  }
+  
+  .nav-link {
+    font-size: 1.25rem; /* Tamaño de fuente de los enlaces del navbar */
+  }
+  
+  .nav-link.active {
+    font-weight: bold; /* Resalta el enlace activo */
+    color: #007bff; /* Color del enlace activo */
+  }
+  
+  .navbar-brand.ms-auto {
+    margin-left: auto; /* Empuja el logo hacia el extremo derecho */
+  }
+  
+  .btn-primary {
+    font-size: 1rem; /* Tamaño de fuente del botón */
+    padding: 0.5rem 1rem; /* Tamaño del botón */
+  }
+  
+  /* Pie de página */
+  footer {
+    background-color: #f8f9fa;
+    color: #343a40;
+  }
+  
+  footer h5 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  footer p {
+    margin-bottom: 0.5rem;
+  }
+  
+  footer ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  footer ul li {
+    margin-bottom: 0.5rem;
+  }
+  
+  footer ul li a {
+    text-decoration: none;
+    color: #343a40;
+  }
+  
+  footer ul li a:hover {
+    text-decoration: underline;
+  }
+  

@@ -1,0 +1,87 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f4f4f4 25%, #d9e2ec 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.profile-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-10px);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    padding: 25px;
+}
+
+.profile-photo {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 6px solid #ffffff;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+.card-body h2 {
+    margin: 0;
+    font-size: 26px;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.card-body h4 {
+    margin: 15px 0;
+    font-size: 20px;
+    color: #555;
+    font-weight: normal;
+}
+
+.card-body p {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.card-footer {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.card-footer p {
+    margin: 0 0 10px;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.social-links a {
+    margin: 0 15px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}

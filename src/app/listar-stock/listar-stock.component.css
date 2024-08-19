@@ -1,0 +1,116 @@
+/* Estilos para los radio buttons */
+.radio-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px; /* Espacio entre los radio buttons */
+}
+
+.radio-group label {
+  font-size: 1rem;
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 5px;
+  accent-color: #007bff; /* Color personalizado para el radio button */
+}
+
+/* Mejoras en la visualización del grupo de radio buttons */
+.radio-group-container {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+/* Estilos generales */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Estilo del encabezado de la tabla */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table thead {
+  background-color: #f4f4f4;
+}
+
+.table th {
+  font-weight: bold;
+  color: #333;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Estilo de las imágenes en la tabla */
+.table img {
+  max-width: 100px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón "Crear Producto" */
+.btn-primary {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Botones de Acción en la Tabla */
+.btn-warning, .btn-danger {
+  font-size: 0.875rem;
+  padding: 0.3rem 0.6rem;
+  color: #fff;
+  border: none;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+.container {
+  margin-top: 20px;
+}
+
+.modal-body {
+  padding: 20px;
+}

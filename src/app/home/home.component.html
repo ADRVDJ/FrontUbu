@@ -1,0 +1,62 @@
+<app-menu-user></app-menu-user>
+<div class="container mt-5">
+  <h1 class="my-4 text-center">Nuestros Zapatos</h1>
+
+  <!-- Campo de búsqueda -->
+  <div class="mb-4">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Buscar por nombre o precio"
+      [(ngModel)]="buscarZapatos"
+      (ngModelChange)="onSearch()"
+    />
+  </div>
+  
+  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+    <ol class="carousel-indicators">
+      <li *ngFor="let product of filteredProducts; let i = index"
+          [class.active]="i === 0"
+          data-bs-target="#carouselExampleIndicators"
+          [attr.data-bs-slide-to]="i"></li>
+    </ol>
+    
+    <div class="carousel-inner">
+      <div *ngFor="let product of filteredProducts; let i = index"
+           [class.active]="i === 0"
+           class="carousel-item">
+        <img [src]="product.image" class="d-block w-100" [alt]="product.nombre">
+        <div class="carousel-caption d-none d-md-block">
+          <h5 class="display-4">{{ product.nombre }}</h5>
+          <p class="lead">{{ product.descripcion }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </a>
+  </div>
+
+  <div class="row mt-4">
+    <div *ngFor="let product of filteredProducts" class="col-md-4 mb-4">
+      <div class="card shadow-sm">
+        <img [src]="product.image" class="card-img-top" [alt]="product.nombre">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.nombre }}</h5>
+          <p class="card-text">{{ product.descripcion }}</p>
+          <p class="card-text"><strong>Categoría:</strong> {{ product.categoria }}</p>
+          <p class="card-text"><strong>Talla:</strong> {{ product.talla }}</p>
+          <p class="card-text"><strong>Precio:</strong> ${{ product.precio }}</p>
+          <p class="card-text"><strong>Estado:</strong> {{ product.estado }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-pie></app-pie>

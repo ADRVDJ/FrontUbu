@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+    <div class="container">
+      <a class="navbar-brand" href="#">ZOAP</a>
+      <div class="collapse navbar-collapse justify-content-center">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/detalle" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Detalles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/informacion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Información</a>
+          </li>
+        </ul>
+      </div>
+      <div class="navbar-brand ms-auto">
+        <!-- Aquí está el logo -->
+        <img src="assets/Imagenes/logo trans.png" alt="Logo" class="img-fluid" style="height: 80px;">
+      </div>
+      <button class="btn btn-primary my-2 my-sm-0" (click)="navigateToLogin()">Login</button>
+    </div>
+  </nav>
+  <!-- El contenido del home se renderiza aquí -->
+
+

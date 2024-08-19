@@ -1,0 +1,101 @@
+/* Estilo para el campo de búsqueda */
+input.form-control {
+  max-width: 400px; /* Ajusta el ancho máximo del campo de búsqueda */
+  margin-left: auto; /* Empuja el campo hacia la derecha */
+  margin-right: 0;   /* Ajusta el margen derecho si es necesario */
+  display: block;    /* Asegura que el campo de búsqueda sea un bloque para aplicar márgenes */
+  padding: 0.5rem;   /* Ajusta el padding interno */
+}
+
+/* Opcional: Estilo para el contenedor del campo de búsqueda */
+.mb-4 {
+  display: flex; /* Usa flexbox para alinear el campo de búsqueda a la derecha */
+  justify-content: flex-end; /* Alinea el contenido del contenedor a la derecha */
+}
+
+/* Carrusel */
+.carousel-item img {
+  object-fit: cover; /* Ajusta la imagen para que cubra todo el contenedor */
+  height: 60vh; /* Altura del carrusel */
+}
+
+.carousel-caption {
+  bottom: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra para mejorar la legibilidad del texto */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%; /* Ajusta el ancho de los controles */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro para los íconos de control */
+  border-radius: 50%;
+}
+
+/* Tarjetas de productos */
+.card {
+  border: 1px solid #ddd; /* Borde gris claro para las tarjetas */
+  border-radius: 8px; /* Bordes redondeados */
+  overflow: hidden; /* Evita que el contenido se desborde */
+  display: flex; /* Usa flexbox para alinear el contenido de la tarjeta */
+  flex-direction: column; /* Alinea el contenido verticalmente */
+}
+
+.card-img-top {
+  height: 200px; /* Altura fija para las imágenes de las tarjetas */
+  object-fit: cover; /* Ajusta la imagen para que cubra el contenedor */
+}
+
+.card-body {
+  padding: 1.25rem; /* Espaciado interno más grande */
+  flex: 1; /* Asegura que el cuerpo de la tarjeta ocupe el espacio disponible */
+}
+
+.card-title {
+  font-size: 1.25rem; /* Tamaño de fuente para el título */
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 1rem; /* Tamaño de fuente para el texto */
+}
+
+.card-footer {
+  background-color: #f8f9fa; /* Fondo gris claro para el pie de página de la tarjeta */
+  border-top: 1px solid #ddd; /* Borde superior gris claro */
+}
+
+/* Mejora del diseño general */
+.container {
+  max-width: 1200px; /* Ancho máximo del contenedor */
+}
+
+h1 {
+  font-size: 2.5rem; /* Tamaño de fuente para el título principal */
+  font-weight: bold;
+  color: #343a40; /* Color gris oscuro para el texto */
+}
+
+.row {
+  margin-top: 2rem; /* Espaciado superior en la fila */
+}
+
+/* Estilo para alinear las tarjetas */
+.card-columns {
+  column-count: 3; /* Tres columnas en pantallas grandes */
+}
+
+@media (max-width: 1200px) {
+  .card-columns {
+    column-count: 2; /* Dos columnas en pantallas medianas */
+  }
+}
+
+@media (max-width: 768px) {
+  .card-columns {
+    column-count: 1; /* Una columna en pantallas pequeñas */
+  }
+}
