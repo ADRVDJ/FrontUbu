@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 export interface Categoria {
   id?: number;
@@ -11,7 +11,7 @@ export interface Categoria {
 })
 
 export class CategoriaService {
-  private apiUrl = 'http://localhost:8080/api/categorias';
+  private apiUrl = 'http://localhost:8080/categorias';
 
   constructor(private http: HttpClient) { }
 
@@ -20,11 +20,11 @@ export class CategoriaService {
   }
 
   getCategoria(id: number): Observable<Categoria> {
-    return this.http.get<Categoria>(`${this.apiUrl}/consultar/${id}`);
+    return this.http.get<Categoria>(`${this.apiUrl}/listar/${id}`);
   }
 
   createCategoria(categoria: Categoria): Observable<Categoria> {
-    return this.http.post<Categoria>(`${this.apiUrl}/crear`, categoria);
+    return this.http.post<Categoria>(`${this.apiUrl}/crearCat`, categoria);
   }
 
   updateCategoria(id: number, categoria: Categoria): Observable<Categoria> {
@@ -35,10 +35,15 @@ export class CategoriaService {
     return this.http.delete<void>(`${this.apiUrl}/eliminar/${id}`);
   }
   getStockList(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/stock/listar`);
+    return this.http.get<any[]>(`${this.apiUrl}/listar`);
   }
 
   getCategoriaList(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/categoria/listar`);
+    return this.http.get<any[]>(`${this.apiUrl}/listar`);
+  }
+  getCategoriaLista(): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>(`${this.apiUrl}/listar`).pipe(
+      tap(data => console.log('Datos de categorías recibidos:', data)) // Agrega esto para depuración
+    );
   }
 }

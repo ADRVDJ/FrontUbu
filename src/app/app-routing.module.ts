@@ -9,7 +9,6 @@ import { MenuUserComponent } from './menu-user/menu-user.component';
 import { PieComponent } from './pie/pie.component';
 import { ListarStockComponent } from './listar-stock/listar-stock.component';
 import { ReportesComponent } from './reportes/reportes.component';
-import { RoleGuard } from './Service/RoleGuard.service';
 import { CrearUsuariosComponent } from './crear-usuarios/crear-usuarios.component';
 import { MenuINVITEDComponent } from './menu-invited/menu-invited.component';
 import { CategoriaComponent } from './categoria/categoria.component';

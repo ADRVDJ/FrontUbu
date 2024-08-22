@@ -20,6 +20,8 @@ export class ListarStockComponent implements OnInit {
   isEdit: boolean = false;
   selectedEstado: string = 'todos'; 
   categorias: Categoria[] = []; // Lista de categorías para el componente
+  searchTerm: string = ''; // Término de búsqueda
+  categoriasCargadas: boolean = false; // Marca si las categorías están cargadas
 
   constructor(
     private stockService: AdminService, 
@@ -29,23 +31,40 @@ export class ListarStockComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadStock();
-    this.fetchStockList(); 
     this.loadCategorias(); // Carga las categorías al iniciar el componente
+    this.searchStock(); // Carga la lista de stock con la búsqueda inicial    this.fetchStockList(); // Carga la lista de stock después de las categorías
+   // this. searchStock();
+  }
+   // Método de búsqueda
+   searchStock(): void {
+    if (this.searchTerm.trim() === '') {
+      this.loadStock(); // Carga todos los datos si el campo de búsqueda está vacío
+    } else {
+      this.stockService.searchStock(this.searchTerm).subscribe(
+        data => {
+          this.stockList = data; // Actualiza la lista de stock con los datos de la búsqueda
+        },
+        error => {
+          console.error('Error searching stock', error);
+          this.toastr.error('No se pudo realizar la búsqueda de productos.'); // Notificación de error
+        }
+      );
+    }
   }
 
+  // Método para cargar la lista de stock
   loadStock(): void {
     this.stockService.getStockList().subscribe(
-      (data) => {
-        this.stockList = data;
+      data => {
+        this.stockList = data; // Actualiza la lista de stock con todos los datos
       },
-      (error) => {
+      error => {
         console.error('Error loading stock', error);
         this.toastr.error('No se pudo cargar la lista de productos.'); // Notificación de error
       }
     );
   }
-
+  // Método para abrir el modal de creación
   openCreateForm(): void {
     if (this.createModal) {
       this.currentProduct = {} as Stock; // Resetea el formulario
@@ -54,6 +73,7 @@ export class ListarStockComponent implements OnInit {
     }
   }
 
+  // Método para abrir el modal de edición
   openEditForm(stock: Stock): void {
     if (this.editModal) {
       this.currentProduct = { ...stock }; // Carga los datos en el formulario
@@ -62,6 +82,7 @@ export class ListarStockComponent implements OnInit {
     }
   }
 
+  // Manejo del cambio de archivo
   onFileChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -73,25 +94,18 @@ export class ListarStockComponent implements OnInit {
     }
   }
   
+  // Método para crear un producto
   createProduct(): void {
-    const formData = new FormData();
+    const productData: any = {};
+  
+    // Llenar productData con los valores de currentProduct
     Object.keys(this.currentProduct).forEach(key => {
-      if (key === 'foto' && this.currentProduct.foto) {
-        const base64Data = this.currentProduct.foto.split(',')[1]; // Extrae el contenido base64
-        const byteCharacters = atob(base64Data); // Decodifica el base64 a bytes
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: 'image/png' });
-        formData.append('foto', blob, 'foto.png');
-      } else {
-        formData.append(key, this.currentProduct[key as keyof Stock] as string);
+      if (key !== 'foto') { // Ignorar la foto
+        productData[key] = this.currentProduct[key as keyof Stock];
       }
     });
   
-    this.stockService.createStock(formData).subscribe(
+    this.stockService.createStock(productData).subscribe(
       () => {
         this.loadStock();
         this.modalService.dismissAll(); // Cierra el modal
@@ -104,25 +118,18 @@ export class ListarStockComponent implements OnInit {
     );
   }
   
+  // Método para actualizar un producto
   updateProduct(): void {
-    const formData = new FormData();
+    const productData: any = {};
+  
+    // Llenar productData con los valores de currentProduct
     Object.keys(this.currentProduct).forEach(key => {
-      if (key === 'foto' && this.currentProduct.foto) {
-        const base64Data = this.currentProduct.foto.split(',')[1]; // Extrae el contenido base64
-        const byteCharacters = atob(base64Data); // Decodifica el base64 a bytes
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: 'image/png' });
-        formData.append('foto', blob, 'foto.png');
-      } else {
-        formData.append(key, this.currentProduct[key as keyof Stock] as string);
+      if (key !== 'foto') { // Ignorar la foto
+        productData[key] = this.currentProduct[key as keyof Stock];
       }
     });
   
-    this.stockService.updateStock(this.currentProduct.id, formData).subscribe(
+    this.stockService.updateStock(this.currentProduct.id, productData).subscribe(
       () => {
         this.loadStock();
         this.modalService.dismissAll(); // Cierra el modal
@@ -135,6 +142,7 @@ export class ListarStockComponent implements OnInit {
     );
   }
 
+  // Método para eliminar un producto
   deleteProduct(id: number): void {
     this.stockService.deleteStock(id).subscribe(
       () => {
@@ -150,13 +158,18 @@ export class ListarStockComponent implements OnInit {
   
   // Método para obtener la lista de stock según el estado seleccionado
   fetchStockList(): void {
-    switch (this.selectedEstado) {
-      case 'todos':
-        this.stockService.getTodos().subscribe(data => {
-          this.stockList = data;
-        });
-        break;
-    }
+    this.stockService.getStockList().subscribe(
+      (data) => {
+        this.stockList = data.map(stock => ({
+          ...stock,
+          categoriaNombre: this.getCategoriaNombre(stock.categoria_id) 
+        }));
+      },
+      (error) => {
+        console.error('Error loading stock', error);
+        this.toastr.error('No se pudo cargar la lista de productos.');
+      }
+    );
   }
 
   // Método para manejar el cambio en los radio buttons
@@ -167,8 +180,10 @@ export class ListarStockComponent implements OnInit {
 
   // Método para cargar las categorías
   loadCategorias(): void {
-    this.categoriaService.getCategoriaList().subscribe(data => {
+    this.categoriaService.getCategoriaLista().subscribe(data => {
       this.categorias = data;
+      this.categoriasCargadas = true; // Marca las categorías como cargadas
+      console.log('Categorías cargadas:', this.categorias);
     });
   }
 
@@ -178,20 +193,21 @@ export class ListarStockComponent implements OnInit {
     return categoria ? categoria.nombre : 'Desconocida';
   }
 
-   // Método para generar el PDF
-   generatePDF(): void {
+  // Método para generar el PDF
+  generatePDF(): void {
     const doc = new jsPDF();
     doc.text('Lista de Productos', 14, 16);
-
-    const tableColumn = ['ID', 'Nombre', 'Categoría', 'Descripción', 'Stock inicial', 'Ubicacion', 'fecha_caducidad'];
+  
+    const tableColumn = ['ID', 'Cédula', 'Nombre', 'Apellido', 'Categoría', 'Stock Inicial', 'Ubicación', 'Fecha'];
     const tableRows = this.stockList.map(stock => [
       stock.id,
+      stock.cedula,
       stock.nombre,
-      this.getCategoriaNombre(stock.categoria),
-      stock.descripcion,
+      stock.apellido,
+      this.getCategoriaNombre(stock.categoria_id),
       stock.stock_inicial,
       stock.ubicacion,
-      stock.fecha_caducidad
+      stock.fecha,
     ]);
 
     (doc as any).autoTable({
@@ -202,4 +218,6 @@ export class ListarStockComponent implements OnInit {
 
     doc.save('stock-list.pdf');
   }
+
+ 
 }

@@ -4,16 +4,17 @@ import { Observable } from 'rxjs';
 
 export interface Stock {
   id: number;
+  cedula:string;
   nombre: string;
-  categoriaId: number;
-  descripcion: string;
-  Stock_inicial: string;
-  Ubicacion: string;
-  fecha_caducidad: string;
-  foto?: string;
+  apellido:string;
+  categoria_id: number;
   stock_inicial: string;
   ubicacion: string;
-  categoria:number;
+  fecha: string;
+  foto?: string;
+
+  categoria: number;
+  categoriaNombre?: string; // Agregamos esta propiedad opcional
 
 }
 
@@ -21,44 +22,36 @@ export interface Stock {
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:8080/api/stock';
+  private apiUrl = 'http://localhost:8080/stock/';
 
   constructor(private http: HttpClient) { }
 
   getStockList(): Observable<Stock[]> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.get<Stock[]>(`${this.apiUrl}/listar`, { headers });
+    return this.http.get<Stock[]>(`${this.apiUrl}/listar`);
   }
 
   createStock(formData: FormData): Observable<string> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.post<string>(`${this.apiUrl}/add`, formData, { headers, responseType: 'text' as 'json' });
+    return this.http.post<string>(`${this.apiUrl}/crear`, formData, { responseType: 'text' as 'json' });
   }
 
   updateStock(id: number, formData: FormData): Observable<string> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.put<string>(`${this.apiUrl}/actualizar/${id}`, formData, { headers, responseType: 'text' as 'json' });
+    return this.http.put<string>(`${this.apiUrl}/actualizar/${id}`, formData, { responseType: 'text' as 'json' });
   }
 
   deleteStock(id: number): Observable<string> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.delete<string>(`${this.apiUrl}/eliminar/${id}`, { headers, responseType: 'text' as 'json' });
+    return this.http.delete<string>(`${this.apiUrl}/eliminar/${id}`, { responseType: 'text' as 'json' });
   }
 
-  
   getTodos(): Observable<Stock[]> {
     return this.http.get<Stock[]>(`${this.apiUrl}/listar`);
+  }
+  //
+  searchStock(term: string): Observable<Stock[]> {
+    // Utilizar parámetros de consulta en la URL
+    return this.http.get<Stock[]>(`${this.apiUrl}/buscar`, {
+      params: {
+        cedula: term // Suponiendo que 'term' se usa como 'cedula' en el backend
+      }
+    });
   }
 }

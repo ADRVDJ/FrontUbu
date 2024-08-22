@@ -9,39 +9,25 @@ import { AuthService } from '../Service/auth.service';
 })
 export class LoginComponent {
   credentials = { username: '', password: '' };
-  errorMessage: string | null = null; // Para mostrar el mensaje de error
-  loginError: string = '';  // Asegúrate de declarar 'loginError'
-
+  errorMessage: string | null = null;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     this.authService.login(this.credentials).subscribe(
       (response) => {
-        console.log('Respuesta del servidor:', response, this.credentials);
-
-        this.authService.saveUserDetails(response);
-        const roles = this.authService.getUserRole();
-
-        if (roles.includes('ROLE_ADMIN')) {
+        console.log('Respuesta del servidor:', response);
+        if (response.message === 'Login successful') {
+          // Redirigir al usuario a la página principal después de un inicio de sesión exitoso
           this.router.navigate(['/controllerstock']);
-        } else if (roles.includes('ROLE_INVITED')) {
-          this.router.navigate(['/Controller-invited']);
         } else {
-          this.router.navigate(['/home']);
+          this.errorMessage = 'Nombre de usuario o contraseña inválidos.';
         }
       },
       (error) => {
-        this.loginError = 'Invalid username or password.';
-        console.error('Login error:', error);
-        console.log('Respuesta del servidor:',  this.credentials);
-
+        this.errorMessage = 'Error al iniciar sesión. Inténtalo de nuevo más tarde.';
+        console.error('Error de inicio de sesión:', error);
       }
     );
-  
   }
-  
-  
 }
-  
-

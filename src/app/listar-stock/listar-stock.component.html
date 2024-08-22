@@ -1,34 +1,29 @@
 <app-menu-admin></app-menu-admin>
 
 <div class="container">
-  <h1>Lista de Productos</h1>
+  <h1>Lista de Alumnos</h1>
 
-  <!-- Radio Buttons para seleccionar disponibilidad -->
-  <div class="radio-group-container">
-    <label class="form-label">Seleccionar Estado</label>
-    <div class="radio-group">
-      <input type="radio" id="todos" name="estado" value="todos" (change)="onEstadoChange('todos')"checked>
-      <label for="todos">Todos</label>
-
-    </div>
+  <!-- Campo de búsqueda combinado para nombre o cédula -->
+  <div class="mb-3">
+    <input type="text" class="form-control" placeholder="Buscar por cédula..." [(ngModel)]="searchTerm" (input)="searchStock()">
   </div>
-  
 
-  <button class="btn btn-primary mb-3" (click)="openCreateForm()">Crear Producto</button>
+  <button class="btn btn-primary mb-3" (click)="openCreateForm()">Crear Alumno</button>
   <button class="btn btn-secondary mb-3" (click)="generatePDF()">Generar PDF</button> <!-- Botón para generar PDF -->
   
-  <!-- Tabla de productos -->
+  <!-- Tabla de alumnos -->
   <table class="table table-striped">
     <thead>
       <tr>
         <th>ID</th>
+        <th>Cédula</th>
         <th>Nombre</th>
+        <th>Apellido</th>
         <th>Categoría</th>
-        <th>Descripción</th>
-        <th>Stock inicial</th>
-        <th>Ubicacion</th>
-        <th>fecha_caducidad</th>
-        <th>Foto</th>
+        <th>Stock Inicial</th>
+        <th>Ubicación</th>
+        <th>Fecha</th>
+        <th>-</th>
         <th>Actualizar</th>
         <th>Eliminar</th>
       </tr>
@@ -36,12 +31,13 @@
     <tbody>
       <tr *ngFor="let stock of stockList">
         <td>{{ stock.id }}</td>
+        <td>{{ stock.cedula }}</td>
         <td>{{ stock.nombre }}</td>
-        <td>{{ getCategoriaNombre(stock.categoria) }}</td>
-        <td>{{ stock.descripcion }}</td>
-        <td>{{ stock.stock_inicial}}</td>
+        <td>{{ stock.apellido }}</td>
+        <td>{{ getCategoriaNombre(stock.categoria_id) }}</td>
+        <td>{{ stock.stock_inicial }}</td>
         <td>{{ stock.ubicacion }}</td>
-        <td>{{ stock.fecha_caducidad }}</td>
+        <td>{{ stock.fecha }}</td>
         <td>
           <img *ngIf="stock.foto" [src]="'data:image/png;base64,' + stock.foto" alt="Foto del producto" style="width: 100px;">
         </td>
@@ -58,84 +54,86 @@
 
 <app-pie></app-pie>
 
-<!-- Modal para crear o editar producto -->
+<!-- Modal para crear alumno -->
 <ng-template #createModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title">Crear Producto</h5>
+    <h5 class="modal-title">Crear Alumno</h5>
     <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')">&times;</button>
   </div>
   <div class="modal-body">
     <form (ngSubmit)="createProduct()" #productForm="ngForm" enctype="multipart/form-data">
       <div class="mb-3">
+        <label for="cedula" class="form-label">Cédula</label>
+        <input type="text" class="form-control" id="cedula" [(ngModel)]="currentProduct.cedula" name="cedula" required>
+      </div>
+      <div class="mb-3">
         <label for="nombre" class="form-label">Nombre</label>
         <input type="text" class="form-control" id="nombre" [(ngModel)]="currentProduct.nombre" name="nombre" required>
       </div>
       <div class="mb-3">
+        <label for="apellido" class="form-label">Apellido</label>
+        <input type="text" class="form-control" id="apellido" [(ngModel)]="currentProduct.apellido" name="apellido" required>
+      </div>
+      <div class="mb-3">
         <label for="categoriaId" class="form-label">Categoría</label>
-        <input type="number" class="form-control" id="categoriaId" [(ngModel)]="currentProduct.categoriaId" name="categoria" required>
+        <input type="number" class="form-control" id="categoriaId" [(ngModel)]="currentProduct.categoria_id" name="categoria" required>
       </div>
       <div class="mb-3">
-        <label for="descripcion" class="form-label">Descripción</label>
-        <input type="text" class="form-control" id="descripcion" [(ngModel)]="currentProduct.descripcion" name="descripcion" required>
+        <label for="stock_inicial" class="form-label">Stock Inicial</label>
+        <input type="number" class="form-control" id="stock_inicial" [(ngModel)]="currentProduct.stock_inicial" name="stock_inicial" required>
       </div>
       <div class="mb-3">
-        <label for="Stock_inicial" class="form-label">Stock_inicial</label>
-        <input type="text" class="form-control" id="Stock_inicial" [(ngModel)]="currentProduct.Stock_inicial" name="Stock_inicial" required>
+        <label for="ubicacion" class="form-label">Ubicación</label>
+        <input type="text" class="form-control" id="ubicacion" [(ngModel)]="currentProduct.ubicacion" name="ubicacion" required>
       </div>
       <div class="mb-3">
-        <label for="Ubicacion" class="form-label">Ubicacion</label>
-        <input type="text" class="form-control" id="Ubicacion" [(ngModel)]="currentProduct.Ubicacion" name="Ubicacion" required>
+        <label for="fecha" class="form-label">Fecha</label>
+        <input type="date" class="form-control" id="fecha" [(ngModel)]="currentProduct.fecha" name="fecha" required>
       </div>
-      <div class="mb-3">
-        <label for="fecha_caducidad" class="form-label">fecha_caducidad</label>
-        <input type="text" class="form-control" id="fecha_caducidad" [(ngModel)]="currentProduct.fecha_caducidad" name="fecha_caducidad" required>
-      </div>
-      <div class="mb-3">
-        <label for="foto" class="form-label">Foto</label>
-        <input type="file" class="form-control" id="foto" (change)="onFileChange($event)">
-      </div>
-      <button type="submit" class="btn btn-primary">{{ isEdit ? 'Actualizar' : 'Crear' }}</button>
+
+      <button type="submit" class="btn btn-primary">Crear</button>
     </form>
   </div>
 </ng-template>
 
+<!-- Modal para actualizar alumno -->
 <ng-template #editModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title">Actualizar Producto</h5>
+    <h5 class="modal-title">Actualizar Alumno</h5>
     <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')">&times;</button>
   </div>
   <div class="modal-body">
-    <form (ngSubmit)="updateProduct()" #productForm="ngForm" enctype="multipart/form-data">
+    <form (ngSubmit)="updateProduct()" #productForm="ngForm">
+      <div class="mb-3">
+        <label for="cedula" class="form-label">Cédula</label>
+        <input type="text" class="form-control" id="cedula" [(ngModel)]="currentProduct.cedula" name="cedula" required>
+      </div>
       <div class="mb-3">
         <label for="nombre" class="form-label">Nombre</label>
         <input type="text" class="form-control" id="nombre" [(ngModel)]="currentProduct.nombre" name="nombre" required>
       </div>
       <div class="mb-3">
+        <label for="apellido" class="form-label">Apellido</label>
+        <input type="text" class="form-control" id="apellido" [(ngModel)]="currentProduct.apellido" name="apellido" required>
+      </div>
+      <div class="mb-3">
         <label for="categoria" class="form-label">Categoría</label>
-        <input type="text" class="form-control" id="categoria" [(ngModel)]="currentProduct.categoriaId" name="categoria" required>
+        <input type="number" class="form-control" id="categoria" [(ngModel)]="currentProduct.categoria_id" name="categoria" required>
       </div>
       <div class="mb-3">
-        <label for="descripcion" class="form-label">Descripción</label>
-        <input type="text" class="form-control" id="descripcion" [(ngModel)]="currentProduct.descripcion" name="descripcion" required>
+        <label for="stock_inicial" class="form-label">Stock Inicial</label>
+        <input type="number" class="form-control" id="stock_inicial" [(ngModel)]="currentProduct.stock_inicial" name="stock_inicial" required>
       </div>
       <div class="mb-3">
-        <label for="Stock_inicial" class="form-label">Stock_inicial</label>
-        <input type="text" class="form-control" id="Stock_inicial" [(ngModel)]="currentProduct.Stock_inicial" name="Stock_inicial" required>
+        <label for="ubicacion" class="form-label">Ubicación</label>
+        <input type="text" class="form-control" id="ubicacion" [(ngModel)]="currentProduct.ubicacion" name="ubicacion" required>
       </div>
       <div class="mb-3">
-        <label for="Ubicacion" class="form-label">Ubicacion</label>
-        <input type="text" class="form-control" id="Ubicacion" [(ngModel)]="currentProduct.Ubicacion" name="Ubicacion" required>
+        <label for="fecha" class="form-label">Fecha</label>
+        <input type="date" class="form-control" id="fecha" [(ngModel)]="currentProduct.fecha" name="fecha" required>
       </div>
-      <div class="mb-3">
-        <label for="fecha_caducidad" class="form-label">fecha_caducidad</label>
-        <input type="text" class="form-control" id="fecha_caducidad" [(ngModel)]="currentProduct.fecha_caducidad" name="fecha_caducidad" required>
-      </div>
-      <div class="mb-3">
-        <label for="foto" class="form-label">Foto</label>
-        <input type="file" class="form-control" id="foto" (change)="onFileChange($event)">
-        <img *ngIf="currentProduct.foto" [src]="'data:image/png;base64,' + currentProduct.foto" alt="Foto del producto" style="width: 100px; margin-top: 10px;">
-      </div>
-      <button type="submit" class="btn btn-primary">{{ isEdit ? 'Actualizar' : 'Crear' }}</button>
+
+      <button type="submit" class="btn btn-primary">Actualizar</button>
     </form>
   </div>
 </ng-template>

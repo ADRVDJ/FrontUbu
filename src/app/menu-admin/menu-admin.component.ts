@@ -12,7 +12,6 @@ export class MenuAdminComponent {
   constructor(private authService: AuthService, private router: Router) { } // Inyecta Router
 
   onLogout(): void {
-    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }
